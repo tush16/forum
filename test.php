@@ -33,7 +33,7 @@ session_start();
             <h1 class="display-4">Archieved Clubs</h1>
             <p class="lead">The Clubs that are archieved are present here.</p>
             <hr class="my-4">
-            <p class="text-muted">It uses utility classes for typography and spacing to space content out within the larger container.</p>
+            <p class="text-muted">Follow all the rules of the forum: No Spam, No Offensive Posts, Remain Respectful.</p>
         </div>
     </div>
 

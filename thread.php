@@ -87,7 +87,7 @@ session_start();
             <h1 class="display-4"><?php echo $title ?></h1>
             <p class="lead"><?php echo $desc ?></p>
             <hr class="my-4">
-            <p class="text-muted">It uses utility classes for typography and spacing to space content out within the larger container.</p>
+            <p class="text-muted">Follow all the rules of the forum: No Spam, No Offensive Posts, Remain Respectful.</p>
             <h5 class="fw-bold">
                 <small >Posted By: <strong class="font-monospace text-capitalize"><?php echo $posted_by ?></strong></small>
             </h5>

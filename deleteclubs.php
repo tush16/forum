@@ -31,7 +31,7 @@ session_start();
             <h1 class="display-4">Delete Clubs</h1>
             <p class="lead">Hello admin, You can delete clubs here.</p>
             <hr class="my-4">
-            <p class="text-muted">It uses utility classes for typography and spacing to space content out within the larger container.</p>
+            <p class="text-muted">Follow all the rules of the forum: No Spam, No Offensive Posts, Remain Respectful.</p>
         </div>
     </div>
 

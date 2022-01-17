@@ -19,7 +19,6 @@ session_start();
         #ques {
             min-height: 433px;
         }
-
     </style>
     <title>AiForums - A student Community</title>
 </head>
@@ -27,7 +26,7 @@ session_start();
 <body>
     <?php include 'partials/_dbconnect.php'; ?>
     <?php include 'partials/_navbar.php'; ?>
-    
+
     <?php
     // for getting the club title and desc for jumbotron 
     $id = $_GET['clubid'];
@@ -47,12 +46,12 @@ session_start();
         //Insert the thread into database
         $sno = $_POST['sno'];
         $th_title = $_POST['title'];
-        $th_title =  str_replace("<",  "&lt;","$th_title");
-        $th_title =  str_replace(">",  "&gt;","$th_title");
+        $th_title =  str_replace("<",  "&lt;", "$th_title");
+        $th_title =  str_replace(">",  "&gt;", "$th_title");
 
         $th_desc = $_POST['desc'];
-        $th_desc =  str_replace("<",  "&lt;","$th_desc");
-        $th_desc =  str_replace(">",  "&gt;","$th_desc");
+        $th_desc =  str_replace("<",  "&lt;", "$th_desc");
+        $th_desc =  str_replace(">",  "&gt;", "$th_desc");
 
 
         $sql  = "INSERT INTO `threads` (`thread_title`, `thread_desc`, `thread_club_id`, `thread_user_id`, `timestamp`) VALUES ('$th_title', '$th_desc', '$id', '$sno', current_timestamp())";
@@ -82,7 +81,7 @@ session_start();
             <h1 class="display-4">Welcome to <?php echo $clubname ?></h1>
             <p class="lead"><?php echo $clubdesc ?></p>
             <hr class="my-4">
-            <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
+            <p>Follow all the rules of the forum: No Spam, No Offensive Posts, Remain Respectful.</p>
             <a class="btn btn-success btn-lg" href="#" role="button">Learn more</a>
         </div>
     </div>
@@ -100,7 +99,7 @@ session_start();
                     <input type="text" class="form-control" id="title" name="title" required>
                     <div id="Help" class="form-text">Keep your title as short and precise as possible.</div>
                 </div>
-                <input type="hidden" name="sno" value="'.$_SESSION['sno'] .'">
+                <input type="hidden" name="sno" value="' . $_SESSION['sno'] . '">
                 <div class="form-group">
                     <label for="exampleFormControlTextarea1">Elaborate your problem</label>
                     <textarea class="form-control" id="desc" name="desc" rows="3" required></textarea>
@@ -130,7 +129,16 @@ session_start();
         <!-- Media object -->
         <?php
         $id = $_GET['clubid'];
-        $sql = "SELECT * FROM `threads` WHERE thread_club_id=$id";
+        if(isset($_GET['page'])){
+            $page = $_GET['page'];
+        }
+        else{
+            $page = 1;
+        }
+        $limit = 5;
+
+        $offset = ($page - 1) * $limit;
+        $sql = "SELECT * FROM `threads` WHERE thread_club_id=$id LIMIT {$offset},{$limit}";
         $result = mysqli_query($conn, $sql);
         $noResult = true;
 
@@ -144,7 +152,7 @@ session_start();
 
             //to get the username from database to display on threadlist corresponding to questions
             $sql2 = "SELECT * FROM `users` WHERE sno ='$thread_user_id'";
-            $result2 = mysqli_query($conn,$sql2);
+            $result2 = mysqli_query($conn, $sql2);
             $row2 = mysqli_fetch_assoc($result2);
             $username = $row2['username'];
 
@@ -163,7 +171,7 @@ session_start();
                     ' . $desc . '
                  </p>
                  <figcaption class="blockquote-footer fw-normal my-0 text-capitalize">
-                 Posted by '.$username.' <cite title="Source Title">at ' . $timestamp . '</cite>
+                 Posted by ' . $username . ' <cite title="Source Title">at ' . $timestamp . '</cite>
                  </figcaption>
              </div>
          </div>
@@ -182,10 +190,57 @@ session_start();
         }
         ?>
 
-
-
-
     </div>
+
+
+    <!-- pagination -->
+    <?php
+
+        $result1 = $conn->query("SELECT count(thread_id) AS thread_id FROM threads");
+        $threadCount = $result1->fetch_all(MYSQLI_ASSOC);
+        $total = $threadCount[0]['thread_id'];
+        $pages = ceil($total / $limit);
+        
+   
+
+
+        echo '<nav aria-label="Page navigation">
+              <ul class="pagination justify-content-center">';
+        if($page > 1){
+            echo '<li class="page-item"><a class="page-link" href="threadlist.php?clubid=' . $_GET['clubid'] . '&page=' .($page-1). '">Previous</a></li>';
+        }
+        else{
+            echo '<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>';
+        }
+       
+        for ($i = 1; $i <= $pages; $i++) {
+            if($i ==  $page){
+                 $active = "active";
+            }
+            else{
+                  $active = "";
+            }
+            echo '  <li class="page-item '.$active.'"><a class="page-link " href="threadlist.php?clubid=' . $_GET['clubid'] . '&page=' . $i . '">' . $i . '</a></li>';
+        }
+        if($pages > $page){
+            echo '<li class="page-item"><a class="page-link" href="threadlist.php?clubid=' . $_GET['clubid'] . '&page=' .($page+1). '">Next</a></li>';
+        }
+        else{
+            echo '<li class="page-item disabled"><a class="page-link" href="#">Next</a></li>';
+        }
+        echo '</ul>
+        </nav>';
+
+    ?>
+
+
+
+    
+  
+   
+
+
+
     <?php include 'partials/_footer.php'; ?>
 
 
