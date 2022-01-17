@@ -34,8 +34,30 @@ echo ' <nav class="navbar navbar-expand-lg navbar-light"  style="background-colo
           echo '<li><a class="dropdown-item" href="threadlist.php?clubid='.$row['club_id'].'">'.$row['club_name'].'</a></li> ';
           }
          echo ' </ul>
-      </li>
+      </li>';
+
+    
+      if($loggedin && $_SESSION['username']=='admin')
+      {
+        echo '
+        <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          Options
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdown"> 
+          <li><a class="dropdown-item" href="/forum/test.php">Archived Clubs</a></li> 
+          <li><a class="dropdown-item" href="/forum/admin.php">Add Clubs</a></li> 
+          
+         </ul>
+      </li>';
   
+      }
+
+
+
+
+
+    echo '
       <li class="nav-item">
         <a class="nav-link" href="contact.php">Contact</a>
       </li>
