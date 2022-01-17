@@ -41,7 +41,7 @@ session_start();
         
         <!-- Media object -->
         <?php
-        $sql="CALL `getComments`()";
+        $sql="CALL `getClubArchive`()";
         $result = mysqli_query($conn,$sql);
       //   echo $_SESSION['username'];
         

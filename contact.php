@@ -1,4 +1,11 @@
 <?php
+session_start();
+$newsletter = true;
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] != true) {
+    $newsletter = false;
+}
+?>
+<?php
 $sent = false;
 $showError = false;
 if($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -63,8 +70,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     }
     ?>
 
-
-
+<?php
+if($newsletter){
+  echo '
   <div class="container">
     <h1 class="text-center m-3 bg-light border p-3 shadow ">Get In Touch</h1>
   <form class="row g-3 border shadow p-3 mb-5 mt-5 bg-light rounded" action="/forum/contact.php" method="post">
@@ -100,7 +108,60 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     <button class="btn btn-primary" type="submit">Send Mail</button>
   </div>
 </form>
+  </div>';
+}
+else{
+  echo '
+  <div class="container rounded bg-light d-flex justify-content-center p-2 my-3"><p class="pt-2" >Please Login to subscribe to our newsletter.</p>
+  <a href="login.php" class="btn btn-success ml-3" role="button">login</a>
   </div>
+
+
+
+
+
+
+
+
+  <div class="container">
+    <h1 class="text-center m-3 bg-light border p-3 shadow ">Get In Touch</h1>
+  <form class="row g-3 border shadow p-3 mb-5 mt-5 bg-light rounded" action="/forum/contact.php" method="post">
+  <div class="col-md-4">
+    <label for="validationDefault01" class="form-label">Name</label>
+    <input type="text" class="form-control" id="validationDefault01" name="name" required disabled>
+  </div>
+  <div class="col-md-4">
+    <label for="validationDefault02" class="form-label">Email</label>
+    <input type="email" class="form-control" id="validationDefault02" name="email"  required disabled>
+  </div>
+  <div class="col-md-4">
+    <label for="validationDefaultUsername" class="form-label">Username</label>
+    <div class="input-group">
+      <span class="input-group-text" id="inputGroupPrepend2">@</span>
+      <input type="text" class="form-control" id="validationDefaultUsername" name="username" required disabled>
+    </div>
+  </div>
+  <div class="col-12">
+    <label for="validationDefault03" class="form-label">Your Concern</label>
+    <textarea name="concern" class="form-control" id="validationDefault03" required disabled cols="30" rows="10"></textarea>
+  </div>
+  
+  <div class="col-12">
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" value="" id="invalidCheck2" required disabled>
+      <label class="form-check-label" for="invalidCheck2">
+        Agree to terms and conditions
+      </label>
+    </div>
+  </div>
+  <div class="col-12">
+    <button class="btn btn-primary" type="submit">Send Mail</button>
+  </div>
+</form>
+  </div>';
+}
+  ?>
+
     <?php include 'partials/_footer.php'; ?>
 
 

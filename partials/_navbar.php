@@ -47,6 +47,7 @@ echo ' <nav class="navbar navbar-expand-lg navbar-light"  style="background-colo
         <ul class="dropdown-menu" aria-labelledby="navbarDropdown"> 
           <li><a class="dropdown-item" href="/forum/test.php">Archived Clubs</a></li> 
           <li><a class="dropdown-item" href="/forum/admin.php">Add Clubs</a></li> 
+          <li><a class="dropdown-item" href="/forum/deleteclubs.php">Delete Clubs</a></li> 
           
          </ul>
       </li>';

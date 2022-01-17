@@ -69,8 +69,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($showError) {
         echo ' <div class="alert alert-danger alert-dismissible fade show" role="alert">
         <strong>Error!</strong> ' . $showError . '
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">×</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+            
         </button>
     </div> ';
     }
