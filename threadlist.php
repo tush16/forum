@@ -195,11 +195,14 @@ session_start();
 
     <!-- pagination -->
     <?php
+          $idclub = $_GET['clubid'];
+        $result1 = $conn->query("SELECT count(thread_id) AS thread_id FROM threads WHERE thread_club_id=$idclub ");
 
-        $result1 = $conn->query("SELECT count(thread_id) AS thread_id FROM threads");
-        $threadCount = $result1->fetch_all(MYSQLI_ASSOC);
-        $total = $threadCount[0]['thread_id'];
-        $pages = ceil($total / $limit);
+        while($row=mysqli_fetch_assoc($result1)){
+            $total=$row['thread_id'];
+        }
+        $pages = ceil( $total / $limit );
+        // echo $pages;
         
    
 

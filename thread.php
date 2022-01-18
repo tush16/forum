@@ -132,9 +132,23 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
         <!-- Media object -->
         <?php
         $id = $_GET['threadid'];
-        $sql = "SELECT * FROM `comments` WHERE thread_id=$id";
+
+        if(isset($_GET['page'])){
+            $page = $_GET['page'];
+        }
+        else{
+            $page = 1;
+        }
+        $limit = 5;
+
+        $offset = ($page - 1) * $limit;
+
+
+        $sql = "SELECT * FROM `comments` WHERE thread_id=$id LIMIT {$offset},{$limit}";
         $result = mysqli_query($conn, $sql);
         $noResult = true;
+
+
 
         while ($row = mysqli_fetch_assoc($result)) {
             $noResult=false;
@@ -179,6 +193,51 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
         }
         ?>
     </div>
+
+        <!-- pagination -->
+    <?php
+        $idclub = $_GET['threadid'];
+        $result1 = $conn->query("SELECT count(comment_id) AS comment_id FROM comments WHERE thread_id=$idclub ");
+
+        while($row=mysqli_fetch_assoc($result1)){
+            $total=$row['comment_id'];
+        }
+        $pages = ceil( $total / $limit );
+        // echo $pages;
+        
+   
+
+
+        echo '<nav aria-label="Page navigation">
+              <ul class="pagination justify-content-center">';
+        if($page > 1){
+            echo '<li class="page-item"><a class="page-link" href="thread.php?threadid=' . $_GET['threadid'] . '&page=' .($page-1). '">Previous</a></li>';
+        }
+        else{
+            echo '<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>';
+        }
+       
+        for ($i = 1; $i <= $pages; $i++) {
+            if($i ==  $page){
+                 $active = "active";
+            }
+            else{
+                  $active = "";
+            }
+            echo '  <li class="page-item '.$active.'"><a class="page-link " href="thread.php?threadid=' . $_GET['threadid'] . '&page=' . $i . '">' . $i . '</a></li>';
+        }
+        if($pages > $page){
+            echo '<li class="page-item"><a class="page-link" href="thread.php?threadid=' . $_GET['threadid'] . '&page=' .($page+1). '">Next</a></li>';
+        }
+        else{
+            echo '<li class="page-item disabled"><a class="page-link" href="#">Next</a></li>';
+        }
+        echo '</ul>
+        </nav>';
+
+    ?>
+
+
     <?php include 'partials/_footer.php'; ?>
 
 
